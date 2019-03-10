@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table</title>
+    <style>
+        body {
+            font-size: 3vh;
+            line-height: 1.4;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            padding: 0;
+            margin: 0;
+        }
+
+        .main {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .teams {
+            position: absolute;
+            top: 2vh;
+            height: 8vh;
+            left: 50%;
+            transform: translateX(-50%);
+            display: grid;
+            grid-template-columns: repeat(3, 8vh);
+            align-items: center;
+            text-align: center;
+            border-radius: 1vw;
+            background: rgba(0, 0, 0, 0.5);
+            font-size: 4vh;
+            color: white;
+        }
+
+        .team {
+            padding: 0 2vw;
+            border-radius: 1vh;
+            background: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            color: white;
+            max-width: 30vw;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .team_one {
+            right: 100%;
+            margin-right: 3vw;
+        }
+
+        .team_two {
+            left: 100%;
+            margin-left: 3vw;
+        }
+
+        .logo > img {
+            display: block;
+            width: 100%;
+            object-fit: contain;
+            border-radius: 1vw;
+        }
+
+        .content {
+            position: absolute;
+            top: 20vh;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 3vh;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+        }
+
+        .table {
+            table-layout: fixed;
+            width: 80vw;
+            border-collapse: collapse;
+        }
+
+        table tr:first-child td{
+            border-top: 1px solid rgba(255,255,255, 0.5);
+        }
+
+        td{
+            padding: 1vh 0;
+            height: 10vh;
+            border-bottom: 1px solid rgba(255,255,255, 0.5);
+        }
+
+        .table td:nth-of-type(1) {
+            padding-left: 2vh;
+            width: 6vw;
+        }
+
+        .table td:nth-of-type(2) {
+            text-align: center;
+            font-size: 2.5vh;
+            line-height: 1.1;
+        }
+        .table td:nth-of-type(3) {
+            width: 20vw;
+            text-align: center;
+        }
+
+        .table td:nth-of-type(4) {
+            width: 10vw;
+            text-align: center;
+            font-size: 4.5vh;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .blue {
+            color: blue;
+        }
+
+        .score {
+            display: inline-block;
+            margin: 0 1vw;
+            color: black;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="main">
+    <div class="teams">
+        <div class="team team_one">Команда 1</div>
+        <div class="team-score team-score__one">0</div>
+        <div class="logo"><img src="https://via.placeholder.com/150/ff00ff/FFFFFF?Text=logo"/></div>
+        <div class="team-score team-score__two">0</div>
+        <div class="team team_two">Команда 2 Команда 2Команда 2Команда 2Команда 2</div>
+    </div>
+
+
+    <div class="content">
+        <table class="table">
+            <tr>
+                <td>1</td>
+                <td>
+                    <div>Антоненко Д., Осипова К.</div>
+                    <div>vs</div>
+                    <div>Антоненко Д., Осипова К.</div>
+                </td>
+                <td>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span></td>
+                <td class="total">0/1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>
+                    <div>Антоненко Д., Осипова К.</div>
+                    <div>vs</div>
+                    <div>Антоненко Д., Осипова К.</div>
+                </td>
+                <td>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span></td>
+                <td class="total">0/1</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>
+                    <div>Антоненко Д., Осипова К.</div>
+                    <div>vs</div>
+                    <div>Антоненко Д., Осипова К.</div>
+                </td>
+                <td>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span></td>
+                <td class="total">0/1</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>
+                    <div>Антоненко Д., Осипова К.</div>
+                    <div>vs</div>
+                    <div>Антоненко Д., Осипова К.</div>
+                </td>
+                <td>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span>
+                    <span class="score"><b class="red">4</b>/<b class="blue">4</b></span></td>
+                <td class="total">0/1</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>
+                    -
+                </td>
+                <td>
+                    -
+                <td class="total">-</td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+
+</body>
+</html>

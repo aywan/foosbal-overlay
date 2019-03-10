@@ -1,0 +1,13 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "main": "server.js",
+    "license": "MIT",
+    "dependencies": {
+        "fast-json-patch": "^2.0.7",
+        "websocket": "^1.0.28"
+    },
+    "scripts": {
+        "start": "node server.js"
+    }
+}
