@@ -1,0 +1,147 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: 3vh;
+  line-height: 1.4;
+
+  /*background-color: darkgreen;*/
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  monospace;
+}
+
+.App{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.teams{
+  position: absolute;
+  top: 2vh;
+  height: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(3, 8vh);
+  align-items: center;
+  text-align: center;
+  border-radius: 1vw;
+  background: rgba(0,0,0,0.3);
+  font-size: 4vh;
+  color: white;
+}
+
+.team{
+  padding: 0 2vw;
+  border-radius: 1vh;
+  background: rgba(0,0,0,0.3);
+  position: absolute;
+  color: white;
+  max-width: 30vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.team_one{
+  right: 100%;
+  margin-right: 3vw;
+}
+
+.team_two{
+  left: 100%;
+  margin-left: 3vw;
+}
+
+.logo {
+
+  border-radius: 1vw;
+  padding: 0.7vw;
+}
+
+.logo > img{
+  display: block;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 1vw;
+  background-color: white;
+}
+
+.players{
+  position: absolute;
+  bottom: 2vh;
+  left: 2vh;
+  right: 2vh;
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  height: 6vh;
+}
+
+.player{
+  display: flex;
+  align-items: center;
+  background:none;
+  color: white;
+}
+
+.player__icon{
+  flex: none;
+  width: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player__icon > img{
+  flex:none;
+  width: 4vh;
+  object-fit: contain;
+  border-radius: 50%;
+  background: white;
+}
+.player__score{
+  flex: none;
+  text-align: center;
+  width: 5vw;
+  margin: 0 1vw;
+  font-size: 4vh;
+
+}
+
+.player__name{
+  margin: 0 2vw;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player_one{
+  border-top-left-radius: 8vh;
+  border-bottom-left-radius: 8vh;
+}
+
+.player_red{
+  background: rgba(1.0, 0, 0, 0.4);
+}
+
+.player_blue{
+  background: rgba(0.0, 0, 1.0, 0.4);
+}
+
+.player_two{
+  flex-direction: row-reverse;
+  text-align: right;
+  border-top-right-radius: 8vh;
+  border-bottom-right-radius: 8vh;
+}
