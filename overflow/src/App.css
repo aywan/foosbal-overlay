@@ -16,7 +16,7 @@
   align-items: center;
   text-align: center;
   border-radius: 1vw;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.3);
   font-size: 4vh;
   color: white;
 }
@@ -24,7 +24,7 @@
 .team{
   padding: 0 2vw;
   border-radius: 1vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.3);
   position: absolute;
   color: white;
   max-width: 30vw;
@@ -64,13 +64,13 @@
   right: 2vh;
   display: grid;
   grid-template-columns: repeat(2, 50%);
-  height: 8vh;
+  height: 6vh;
 }
 
 .player{
   display: flex;
   align-items: center;
-  background: rgba(0,0,0,0.5);
+  background:none;
   color: white;
 }
 
@@ -84,7 +84,7 @@
 
 .player__icon > img{
   flex:none;
-  width: 7vh;
+  width: 4vh;
   object-fit: contain;
   border-radius: 50%;
   background: white;
@@ -112,11 +112,11 @@
 }
 
 .player_red{
-  background: red;
+  background: rgba(1.0, 0, 0, 0.4);
 }
 
 .player_blue{
-  background: blue;
+  background: rgba(0.0, 0, 1.0, 0.4);
 }
 
 .player_two{

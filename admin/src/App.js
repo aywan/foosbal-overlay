@@ -59,43 +59,10 @@ class App extends Component<{}, StateType> {
         this.setState(state);
     };
 
-    handleConfigSubmit = () => {
-        const state = {
-            ...this.client.getState(),
-            isSwitchTeams: this.state.isSwitchTeams,
-            isSwitchColor: this.state.isSwitchColor,
-        };
-
-        this.client.sendPatch(state);
-    };
-
-    handleTeamSubmit = () => {
-        const state = {
-            ...this.client.getState(),
-            teamLeftName: this.state.teamLeftName,
-            teamLeftScore: this.state.teamLeftScore,
-            teamRightName: this.state.teamRightName,
-            teamRightScore: this.state.teamRightScore,
-        };
-
-        this.client.sendPatch(state);
-    };
-
-    handlePlayersSubmit = () => {
-        const state = {
-            ...this.client.getState(),
-            left: this.state.left,
-            right: this.state.right,
-        };
-
-        this.client.sendPatch(state);
-    };
-
     handleGameSubmit = () => {
         const state = {
             ...this.client.getState(),
-            leftGameScore: this.state.leftGameScore,
-            rightGameScore: this.state.rightGameScore,
+            ...this.state,
         };
 
         this.client.sendPatch(state);
@@ -128,9 +95,6 @@ class App extends Component<{}, StateType> {
                             toggle
                         />
                     </Form.Group>
-                    <Form.Group inline>
-                        <Form.Button primary onClick={this.handleConfigSubmit}>Save</Form.Button>
-                    </Form.Group>
                     <hr/>
 
                     {/* teams */}
@@ -152,6 +116,9 @@ class App extends Component<{}, StateType> {
                                     placeholder=""
                                     onChange={this.handleChangeValue}
                                     value={this.state.teamLeftScore}
+                                    type={"number"}
+                                    min={0}
+                                    max={4}
                                 />
                             </Grid.Column>
                             <Grid.Column>
@@ -169,14 +136,10 @@ class App extends Component<{}, StateType> {
                                     placeholder=""
                                     onChange={this.handleChangeValue}
                                     value={this.state.teamRightScore}
+                                    type={"number"}
+                                    min={0}
+                                    max={4}
                                 />
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column colapse={2}>
-                                <Form.Group inline>
-                                    <Form.Button primary onClick={this.handleTeamSubmit}>Save</Form.Button>
-                                </Form.Group>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -261,6 +224,9 @@ class App extends Component<{}, StateType> {
                                     placeholder=""
                                     onChange={this.handleChangeValue}
                                     value={this.state.leftGameScore}
+                                    type={"number"}
+                                    min={0}
+                                    max={5}
                                 />
                             </Grid.Column>
                             <Grid.Column>
@@ -270,6 +236,9 @@ class App extends Component<{}, StateType> {
                                     placeholder=""
                                     onChange={this.handleChangeValue}
                                     value={this.state.rightGameScore}
+                                    type={"number"}
+                                    min={0}
+                                    max={5}
                                 />
                             </Grid.Column>
                         </Grid.Row>
