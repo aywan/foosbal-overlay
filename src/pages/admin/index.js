@@ -4,11 +4,12 @@ import React, {Component} from 'react';
 import './App.css';
 import 'semantic-ui-css/semantic.min.css'
 import {Form, Grid} from "semantic-ui-react";
-import {WsClient} from "./../../services/api";
+import {GetWsClient, WsClient} from "./../../services/api";
 
 import type {StateType} from "../../types";
 
 import {defaultState} from '../../helpers/default-state';
+import {TOURNAMENT} from '../../enums/channels';
 
 class AdminPage extends Component<{}, StateType> {
     isMount: boolean = false;
@@ -18,7 +19,8 @@ class AdminPage extends Component<{}, StateType> {
 
     constructor () {
         super();
-        this.client = new WsClient(this);
+        this.client = GetWsClient();
+        this.client.registerComponent(this.updateState, TOURNAMENT);
     }
 
     componentDidMount (): void {
@@ -36,12 +38,7 @@ class AdminPage extends Component<{}, StateType> {
     };
 
     handleGameSubmit = () => {
-        const state = {
-            ...this.client.getState(),
-            ...this.state,
-        };
-
-        this.client.sendPatch(state);
+        this.client.sendPatch(this.state, TOURNAMENT);
     };
 
     handleChangeValue = (e, {name, value}) => this.setState({[name]: value});

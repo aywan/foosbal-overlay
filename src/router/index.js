@@ -5,6 +5,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 
 import {AdminPage} from './../pages/admin';
 import {PlayersPage} from "../pages/players";
+import {TournamentOverlay} from "../pages/t-overlay";
 
 class AppRouter extends Component<> {
 
@@ -14,6 +15,7 @@ class AppRouter extends Component<> {
                 <div>
                     <Route path="/" exact component={AdminPage}/>
                     <Route path="/players" exact component={PlayersPage}/>
+                    <Route path="/t-overlay" exact component={TournamentOverlay}/>
                 </div>
             </BrowserRouter>
         );

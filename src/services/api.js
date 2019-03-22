@@ -1,14 +1,14 @@
 // @flow
 
-import {Component} from 'react';
-
 class WsClient {
     connection: WebSocket = null;
-    version = 0;
-    state = {};
+    objectStore = {};
+    handlers = {};
 
-    constructor (page: Component) {
-        this.page = page;
+    registerComponent (callback: Function, name: string) {
+        let handlers = this.handlers[name] || [];
+        handlers.push(callback);
+        this.handlers[name] = handlers;
     }
 
     open = () => {
@@ -22,33 +22,69 @@ class WsClient {
     };
 
     onMessage = (message) => {
-        try {
-            let json = JSON.parse(message.data);
-            if (this.version < json.version) {
-                this.page.updateState(json.data);
-            }
-            this.version = json.version;
-            this.state = json.data;
-        } catch (e) {
-            console.log('This doesn\'t look like a valid JSON: ', message.data, e);
+        let json = JSON.parse(message.data);
+
+        switch (json.command) {
+            case "store":
+                this.updateStore(json);
+                break;
+
+            case "object":
+                this.updateObject(json);
+                break;
+
+            default:
+                return;
         }
     };
 
-    sendPatch = (state) => {
-        this.version++;
+    sendPatch = (data, name: string) => {
+        let object = this.objectStore[name] || {version: 0};
+        object.version++;
+        object.data = data;
 
-        const data = {
-            version: this.version,
-            data: state,
-        };
-        this.state = state;
+        this.objectStore[name] = object;
 
-        this.connection.send(JSON.stringify(data));
+        this.connection.send(JSON.stringify({
+            ...object,
+            name: name,
+        }));
     };
 
-    getState() {
-        return this.state;
+    updateStore (json) {
+        this.objectStore = json.data;
+
+        Object.keys(this.objectStore).forEach((key) => {
+            this.runHandlers(key);
+        })
+    }
+
+    updateObject (json) {
+        const name = json.name;
+        let object = this.objectStore[name];
+        if (object.version >= json.version) {
+            return;
+        }
+        object.version = json.version;
+        object.data = json.data;
+        this.objectStore[name] = object;
+    }
+
+    runHandlers (key: string) {
+        const list = this.handlers[key] || [];
+        const obj = this.objectStore[key] || {};
+
+        list.forEach((c) => c(obj.data || {}));
     }
 }
 
 export {WsClient};
+
+let wsInstance = null;
+
+export function GetWsClient (): WsClient {
+    if (wsInstance === null) {
+        wsInstance = new WsClient();
+    }
+    return wsInstance
+}

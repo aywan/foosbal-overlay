@@ -3,14 +3,16 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import logoIcon from './img/logo.svg';
-import leftPlayerDoubleIcon from './img/player-left-double.svg';
-import leftPlayerSingleIcon from './img/player-left-single.svg';
-import rightPlayerDoubleIcon from './img/player-right-dobule.svg';
-import rightPlayerSingleIcon from './img/player-right-single.svg';
+import logoIcon from '../../img/logo.svg';
+import leftPlayerDoubleIcon from '../../img/player-left-double.svg';
+import leftPlayerSingleIcon from '../../img/player-left-single.svg';
+import rightPlayerDoubleIcon from '../../img/player-right-dobule.svg';
+import rightPlayerSingleIcon from '../../img/player-right-single.svg';
 
-import {WsClient} from "../../src/services/api";
-import type {StateType, TeamType} from "../../admin/src/types";
+import {WsClient, GetWsClient} from "../../services/api";
+import type {StateType, TeamType} from "../../types";
+
+import {TOURNAMENT} from '../../enums/channels';
 
 const defState = {
   isSwitchColor: false,
@@ -39,14 +41,29 @@ const defState = {
   rightGameScore: 0,
 };
 
-class App extends Component<{}, StateType> {
+const createPlayers = (p: TeamType) => {
+  let team = [];
+  if (p.isFirst) {
+    team.push(p.first);
+  }
+  if (p.isSecond) {
+    team.push(p.second);
+  }
+  if (p.isThrid) {
+    team.push(p.thrid);
+  }
+  return team;
+};
+
+class TournamentOverlay extends Component<{}, StateType> {
 
   client: WsClient;
   state: StateType = defState;
 
   constructor () {
     super();
-    this.client = new WsClient(this);
+    this.client = GetWsClient();
+    this.client.registerComponent(this.updateState, TOURNAMENT)
   }
 
   componentDidMount (): void {
@@ -63,24 +80,10 @@ class App extends Component<{}, StateType> {
     this.setState(state);
   };
 
-  static createPlayers(p: TeamType) {
-    let team = [];
-    if (p.isFirst) {
-      team.push(p.first);
-    }
-    if (p.isSecond) {
-      team.push(p.second);
-    }
-    if (p.isThrid) {
-      team.push(p.thrid);
-    }
-    return team;
-  }
-
   render() {
 
-    const leftPlayers = App.createPlayers(this.state.isSwitchTeams ? this.state.right : this.state.left);
-    const rightPlayers = App.createPlayers(this.state.isSwitchTeams ? this.state.left : this.state.right);
+    const leftPlayers = createPlayers(this.state.isSwitchTeams ? this.state.right : this.state.left);
+    const rightPlayers = createPlayers(this.state.isSwitchTeams ? this.state.left : this.state.right);
 
     let leftIcon = leftPlayers.length > 1 ? leftPlayerDoubleIcon : leftPlayerSingleIcon;
     let rightIcon = rightPlayers.length > 1 ? rightPlayerDoubleIcon: rightPlayerSingleIcon;
@@ -111,4 +114,4 @@ class App extends Component<{}, StateType> {
   }
 }
 
-export default App;
+export {TournamentOverlay};
