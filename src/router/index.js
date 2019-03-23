@@ -3,7 +3,7 @@
 import React, {Component} from "react";
 import {BrowserRouter, Route} from "react-router-dom";
 
-import {AdminPage} from './../pages/admin';
+import {AdminPage} from './../pages/admin-dyp';
 import {PlayersPage} from "../pages/players";
 import {TournamentOverlay} from "../pages/t-overlay";
 

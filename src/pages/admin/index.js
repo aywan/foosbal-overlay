@@ -48,7 +48,7 @@ class AdminPage extends Component<{}, StateType> {
 
     render () {
         return (
-            <div className="App">
+            <div className="AdminPage">
                 <Form>
                     {/* controls */}
                     <h2>Controls</h2>

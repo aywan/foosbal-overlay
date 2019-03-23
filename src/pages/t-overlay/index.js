@@ -1,117 +1,189 @@
 // @flow
 
-import React, { Component } from 'react';
-import './App.css';
+import React, {Component} from 'react';
+import styles from './overlay.module.css';
 
-import logoIcon from '../../img/logo.svg';
 import leftPlayerDoubleIcon from '../../img/player-left-double.svg';
-import leftPlayerSingleIcon from '../../img/player-left-single.svg';
 import rightPlayerDoubleIcon from '../../img/player-right-dobule.svg';
-import rightPlayerSingleIcon from '../../img/player-right-single.svg';
 
 import {WsClient, GetWsClient} from "../../services/api";
-import type {StateType, TeamType} from "../../types";
+import type {DypTeamTeam, DypType} from "../../types";
 
-import {TOURNAMENT} from '../../enums/channels';
+import {Icon} from "semantic-ui-react";
+
+import {PLAYER_LIST, TOURNAMENT} from '../../enums/channels';
 
 const defState = {
-  isSwitchColor: false,
-  isSwitchTeams: false,
-  teamLeftName: '',
-  teamRightName: '',
-  teamLeftScore: 0,
-  teamRightScore: 0,
-  left: {
-    first:'',
-    isFirst: false,
-    second: '',
-    isSecond: false,
-    thrid: '',
-    isThrid: false,
-  },
-  right: {
-    first:'',
-    isFirst: false,
-    second: '',
-    isSecond: false,
-    thrid: '',
-    isThrid: false,
-  },
-  leftGameScore: 0,
-  rightGameScore: 0,
+    left: {
+        color: "red",
+        players: ["Антоненко Д.", "Осипова К."],
+        sets: [
+            {
+                state: "win",
+                score: 5,
+                color: "blue",
+            },
+            {
+                state: "lost",
+                score: 3,
+                color: "red",
+            },
+            {
+                state: "draw",
+                score: 4,
+                color: "blue",
+            },
+            {
+                state: "play",
+                score: 1,
+                color: "red",
+            }
+        ]
+    },
+    right: {
+        color: "blue",
+        players: ["Бюрюков Д."],
+        sets: [
+            {
+                state: "lost",
+                score: 2,
+                color: "red",
+            },
+            {
+                state: "win",
+                score: 5,
+                color: "blue",
+            },
+            {
+                state: "draw",
+                score: 4,
+                color: "red",
+            },
+            {
+                state: "play",
+                score: 1,
+                color: "blue",
+            }
+        ]
+    },
 };
 
-const createPlayers = (p: TeamType) => {
-  let team = [];
-  if (p.isFirst) {
-    team.push(p.first);
-  }
-  if (p.isSecond) {
-    team.push(p.second);
-  }
-  if (p.isThrid) {
-    team.push(p.thrid);
-  }
-  return team;
+type DypBlockProps = {
+    blockPosition: "left" | "right",
+    team: DypTeamTeam
+}
+
+const setIcons = {
+    lost: "thumbs down",
+    win: "thumbs up",
+    draw: "handshake",
+    play: "hand point left",
 };
 
-class TournamentOverlay extends Component<{}, StateType> {
+class DypBlock extends Component<DypBlockProps> {
+    render () {
+        const team = this.props.team;
 
-  client: WsClient;
-  state: StateType = defState;
+        let playersIcon, positionStyle, flipIcon;
 
-  constructor () {
-    super();
-    this.client = GetWsClient();
-    this.client.registerComponent(this.updateState, TOURNAMENT)
-  }
+        if (this.props.blockPosition === "left") {
+            playersIcon = leftPlayerDoubleIcon;
+            positionStyle = styles.left;
+            flipIcon = false;
+        } else {
+            playersIcon = rightPlayerDoubleIcon;
+            positionStyle = styles.right;
+            flipIcon = true;
+        }
 
-  componentDidMount (): void {
-    this.isMount = true;
-    this.client.open();
-  }
+        return (
+            <div className={[styles.dypBlock, positionStyle].join(' ')}>
+                <div className={styles.sets}>
+                    {team.sets.map((set, idx) => {
 
-  componentWillUnmount (): void {
-    this.isMount = false;
-    this.client.close();
-  }
+                        let setClasses: Array = [styles.set];
+                        if (set.state !== "play" && idx > 0) {
+                            setClasses.push(styles.setInactive);
+                        }
 
-  updateState = (state) => {
-    this.setState(state);
-  };
+                        let scoreClasses: Array = [styles.setScore];
+                        if (set.color === "red") {
+                            scoreClasses.push(styles.setScoreRed)
+                        } else {
+                            scoreClasses.push(styles.setScoreBlue)
+                        }
 
-  render() {
+                        return (
+                            <div key={idx} className={setClasses.join(' ')}>
+                                <div className={scoreClasses.join(' ')}>
+                                    {set.score}
+                                </div>
+                                <div className={styles.setType}>
+                                    {flipIcon
+                                        ? <Icon inverted name={setIcons[set.state]} flipped={"horizontally"} size={"tiny"} color={"grey"}/>
+                                        : <Icon inverted name={setIcons[set.state]} size={"tiny"} color={"grey"}/>
+                                    }
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className={styles.playersBar}>
+                    <div className={styles.icon} style={{fill: "red"}}><img src={playersIcon} alt={"left player"}/></div>
+                    <div className={styles.players}>
+                        <div>{team.players.join(', ')}</div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
 
-    const leftPlayers = createPlayers(this.state.isSwitchTeams ? this.state.right : this.state.left);
-    const rightPlayers = createPlayers(this.state.isSwitchTeams ? this.state.left : this.state.right);
+class TournamentOverlay extends Component<{}, DypType> {
 
-    let leftIcon = leftPlayers.length > 1 ? leftPlayerDoubleIcon : leftPlayerSingleIcon;
-    let rightIcon = rightPlayers.length > 1 ? rightPlayerDoubleIcon: rightPlayerSingleIcon;
+    client: WsClient;
+    state: DypType = {
+        left: {
+            color: "red",
+            players: [],
+            sets: [],
+        },
+        right: {
+            color: "blue",
+            players: [],
+            sets: [],
+        }
+    };
 
-    return (
-      <div className="App">
-        <div className="teams">
-          <div className="team team_one">{this.state.isSwitchTeams ? this.state.teamRightName : this.state.teamLeftName}</div>
-          <div className="team-score team-score__one">{this.state.isSwitchTeams ? this.state.teamRightScore : this.state.teamLeftScore}</div>
-          <div className="logo"><img src={logoIcon} alt={"logo"}/></div>
-          <div className="team-score team-score__two">{this.state.isSwitchTeams ? this.state.teamLeftScore : this.state.teamRightScore}</div>
-          <div className="team team_two">{this.state.isSwitchTeams ? this.state.teamLeftName : this.state.teamRightName}</div>
-        </div>
-        <div className="players">
-          <div className={"player " + (this.state.isSwitchColor ? "player_blue" : "player_red") + " player_one"}>
-            <div className="player__icon"><img src={leftIcon} alt={"left player"}/></div>
-            <div className="player__name">{leftPlayers.join(', ')}</div>
-            <div className="player__score">{this.state.isSwitchTeams ? this.state.rightGameScore : this.state.leftGameScore}</div>
-          </div>
-          <div className={"player "  + (this.state.isSwitchColor ? "player_red" : "player_blue") + " player_two"}>
-            <div className="player__icon"><img src={rightIcon} alt={"right player"}/></div>
-            <div className="player__name">{rightPlayers.join(', ')}</div>
-            <div className="player__score">{this.state.isSwitchTeams ? this.state.leftGameScore : this.state.rightGameScore}</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    constructor () {
+        super();
+        this.client = GetWsClient();
+        this.client.registerComponent(this.updateState, TOURNAMENT);
+    }
+
+    componentDidMount (): void {
+        this.isMount = true;
+        this.client.open();
+    }
+
+    componentWillUnmount (): void {
+        this.isMount = false;
+        this.client.close();
+    }
+
+    updateState = (state) => {
+        this.setState(state);
+    };
+
+    render () {
+
+        return (
+            <div className={styles.Overlay}>
+                <DypBlock blockPosition={"left"} team={this.state.left}/>
+                <DypBlock blockPosition={"right"} team={this.state.right}/>
+            </div>
+        );
+    }
 }
 
 export {TournamentOverlay};

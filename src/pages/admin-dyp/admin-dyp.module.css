@@ -1,5 +1,5 @@
 .AdminPage {
-  width: 100px;
+  max-width: 600px;
   padding-top: 30px;
   margin: 0 auto;
 }

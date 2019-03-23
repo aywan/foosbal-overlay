@@ -68,6 +68,7 @@ class WsClient {
         object.version = json.version;
         object.data = json.data;
         this.objectStore[name] = object;
+        this.runHandlers(name);
     }
 
     runHandlers (key: string) {

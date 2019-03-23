@@ -1,0 +1,116 @@
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  monospace;
+}
+
+.Overlay{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  /*background-color: darkgreen;*/
+}
+
+.dypBlock {
+  position: absolute;
+  bottom: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.left {
+  left: 2vh;
+}
+
+.right {
+  right: 2vh;
+}
+
+.sets {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.set {
+  display: flex;
+  margin-bottom: 0.7vw;
+  align-items: center;
+}
+
+.left > .sets > .set {
+  flex-direction: row;
+}
+
+.right > .sets > .set {
+  flex-direction: row-reverse;
+}
+
+.setInactive {
+  opacity: 0.75;
+}
+
+.setScore {
+  display: block;
+  object-fit: contain;
+  border-radius: 50%;
+  background: white;
+  text-align: center;
+  height: 4vh;
+  width: 4vh;
+  line-height: 4vh;
+  vertical-align: middle;
+  font-size: 2.5vh;
+}
+
+.setScoreBlue {
+  border: 0.2vh blue solid;
+}
+
+.setScoreRed {
+  border: 0.2vh red solid;
+}
+
+.setType {
+  display: block;
+  object-fit: contain;
+  height: 4vh;
+  padding: 0 1vh;
+  vertical-align: middle;
+  line-height: 3vh;
+}
+
+.playersBar{
+  display: flex;
+  flex-direction: row;
+  height: 6vh;
+  align-items: center;
+}
+
+.left > .playersBar {
+  flex-direction: row;
+}
+
+.right > .playersBar {
+  flex-direction: row-reverse;
+}
+
+.playersBar .icon{
+  height: 5vh;
+  width: 5vh;
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.3vh;
+}
+
+.players{
+  display: flex;
+  flex-direction: column;
+  background:none;
+  color: white;
+  font-size: 3vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  justify-content: center;
+}
